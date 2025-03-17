@@ -1,17 +1,15 @@
 import math
 
 def is_perfect_square(n):
-    """Check if a number is a perfect square."""
     return math.isqrt(n) ** 2 == n
 
 def continued_fraction_sqrt(D):
-    """Returns the continued fraction representation of sqrt(D)."""
     m, d, a0 = 0, 1, int(math.sqrt(D))
     if a0 * a0 == D:
-        return []  # D is a perfect square, no solution needed
+        return [] 
     a = a0
     period = []
-    while a != 2 * a0:  # Period ends when we reach 2*a0
+    while a != 2 * a0: 
         m = d * a - m
         d = (D - m * m) // d
         a = (a0 + m) // d
@@ -19,25 +17,24 @@ def continued_fraction_sqrt(D):
     return [a0] + period
 
 def solve_pell(D):
-    """Finds the minimal solution (x, y) to x^2 - D*y^2 = 1 using continued fractions."""
     cf = continued_fraction_sqrt(D)
     if not cf:
-        return None  # D is a perfect square
+        return None 
 
     a0, period = cf[0], cf[1:]
     h1, k1 = a0, 1
-    h2, k2 = 1, 0  # Base cases
-    a_list = period * 2  # Repeat period indefinitely
+    h2, k2 = 1, 0 
+    a_list = period * 2  
 
     for a in a_list:
         h = a * h1 + h2
         k = a * k1 + k2
         if h * h - D * k * k == 1:
-            return (h, k)  # Found fundamental solution
+            return (h, k)  
         h2, k2 = h1, k1
         h1, k1 = h, k
 
-    return None  # Should never reach here
+    return None  
 
 # Take user input for D
 try:
